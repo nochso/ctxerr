@@ -61,6 +61,24 @@ func ExampleCtx_WithContext_limited() {
 	// 4 | 4th
 }
 
+func ExampleCtx_WithContext_limitedMultiline() {
+	in := `1st
+2nd
+3rd has an error
+4th still has an error
+5th`
+	ctx := New(in, Range(3, 1, 4, 22)).WithContext(1)
+	fmt.Println(ctx)
+	// Output:
+	// 3:1-4:22:
+	// 2 | 2nd
+	// 3 | 3rd has an error
+	//   | ^^^^^^^^^^^^^^^^
+	// 4 | 4th still has an error
+	//   | ^^^^^^^^^^^^^^^^^^^^^^
+	// 5 | 5th
+}
+
 func ExampleCtx_WithContext_all() {
 	in := `1st
 2nd
