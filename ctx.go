@@ -12,7 +12,8 @@ import (
 )
 
 var (
-	DefaultGutter = " | "
+	DefaultGutter  = " | "
+	DefaultPointer = '^'
 )
 
 // Ctx points to runes in (multiline) strings.
@@ -77,7 +78,7 @@ func (c Ctx) String() string {
 		}
 		c.writeLineGutter(buf, 0, linePosMaxLen)
 		buf.WriteString(strings.Repeat(" ", c.getPad(linePos)))
-		buf.WriteString(color.RedString("%s", strings.Repeat("^", c.getDots(linePos, line))))
+		buf.WriteString(color.RedString("%s", strings.Repeat(string(DefaultPointer), c.getDots(linePos, line))))
 		if c.hint != "" && c.start.line == linePos {
 			fmt.Fprintf(buf, " %s", c.hint)
 		}
