@@ -69,11 +69,8 @@ func split(s string, r Region) []string {
 }
 
 // ToError wraps err with this context.
-func (c Ctx) ToError(err error) CtxErr {
-	return CtxErr{
-		ctx: c,
-		err: err,
-	}
+func (c Ctx) ToError(err error) Error {
+	return NewError(err, c)
 }
 
 func (c Ctx) String() string {

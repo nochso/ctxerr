@@ -105,3 +105,14 @@ func ExampleCtx_WithPath() {
 	// 1 | 42
 	//   | ^
 }
+
+func ExampleCtx_ToError() {
+	cause := fmt.Errorf("not a letter")
+	err := New("ab!cd", Point(1, 3)).ToError(cause)
+	fmt.Println(err)
+	// Output:
+	// not a letter
+	// 1:3:
+	// 1 | ab!cd
+	//   |   ^
+}
