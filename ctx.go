@@ -66,6 +66,7 @@ func split(s string, r Region) []string {
 
 func (c Ctx) String() string {
 	buf := &bytes.Buffer{}
+	fmt.Fprintf(buf, "%s:\n", c.Region)
 	start, end := c.lineIndex()
 	// length of highest line number
 	linePosMaxLen := posLen(end)
