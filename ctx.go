@@ -11,6 +11,10 @@ import (
 	"github.com/fatih/color"
 )
 
+var (
+	DefaultGutter = " | "
+)
+
 // Ctx points to runes in (multiline) strings.
 type Ctx struct {
 	lines   []string
@@ -119,5 +123,5 @@ func (c Ctx) writeLineGutter(buf *bytes.Buffer, line, maxLen int) {
 	if line != 0 {
 		buf.WriteString(strconv.Itoa(line))
 	}
-	buf.WriteString(" | ")
+	buf.WriteString(DefaultGutter)
 }
