@@ -23,6 +23,7 @@ type Ctx struct {
 	lines   []string
 	context int
 	Region
+	path string
 	hint string
 }
 
@@ -55,6 +56,12 @@ func (c Ctx) WithContext(context int) Ctx {
 	return c
 }
 
+// WithPath returns a Ctx with the given path added to the region string.
+func (c Ctx) WithPath(path string) Ctx {
+	c.path = path
+	return c
+}
+
 func split(s string, r Region) []string {
 	sc := bufio.NewScanner(strings.NewReader(s))
 	l := []string{}
@@ -64,8 +71,19 @@ func split(s string, r Region) []string {
 	return l
 }
 
+// ToError wraps err with this context.
+func (c Ctx) ToError(err error) CtxErr {
+	return CtxErr{
+		ctx: c,
+		err: err,
+	}
+}
+
 func (c Ctx) String() string {
 	buf := &bytes.Buffer{}
+	if c.path != "" {
+		fmt.Fprintf(buf, "%s:", c.path)
+	}
 	fmt.Fprintf(buf, "%s:\n", c.Region)
 	start, end := c.lineIndex()
 	// length of highest line number
