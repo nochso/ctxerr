@@ -49,9 +49,6 @@ func (c Ctx) WithHint(hint string) Ctx {
 //	-1: all lines, the full input string
 //	 3: limited context of 3 lines
 func (c Ctx) WithContext(context int) Ctx {
-	if context < -1 {
-		context = -1
-	}
 	c.context = context
 	return c
 }
