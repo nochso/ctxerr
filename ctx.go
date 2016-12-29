@@ -12,7 +12,9 @@ import (
 )
 
 var (
-	DefaultGutter  = " | "
+	// DefaultGutter separates line numbers from content.
+	DefaultGutter = " | "
+	// DefaultPointer is the rune that points up at a region.
 	DefaultPointer = '^'
 )
 
