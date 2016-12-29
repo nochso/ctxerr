@@ -40,3 +40,35 @@ func ExampleCtx_WithHint() {
 	// 1 | 010101102110
 	//   |         ^ don't worry, bender
 }
+
+func ExampleCtx_WithContext_limited() {
+	in := `1st
+2nd
+3rd has an error
+4th
+5th`
+	ctx := New(in, Point(3, 12)).WithContext(1)
+	fmt.Println(ctx)
+	// Output:
+	// 2 | 2nd
+	// 3 | 3rd has an error
+	//   |            ^
+	// 4 | 4th
+}
+
+func ExampleCtx_WithContext_all() {
+	in := `1st
+2nd
+3rd has an error
+4th
+5th`
+	ctx := New(in, Point(3, 12)).WithContext(-1)
+	fmt.Println(ctx)
+	// Output:
+	// 1 | 1st
+	// 2 | 2nd
+	// 3 | 3rd has an error
+	//   |            ^
+	// 4 | 4th
+	// 5 | 5th
+}

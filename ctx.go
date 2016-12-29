@@ -13,7 +13,8 @@ import (
 
 // Ctx points to runes in (multiline) strings.
 type Ctx struct {
-	lines []string
+	lines   []string
+	context int
 	Region
 	hint string
 }
@@ -34,18 +35,24 @@ func (c Ctx) WithHint(hint string) Ctx {
 	return c
 }
 
+// WithContext returns a Ctx with a maximum amount of context lines.
+//
+//	 0: no lines of context.
+//	-1: all lines, the full input string
+//	 3: limited context of 3 lines
+func (c Ctx) WithContext(context int) Ctx {
+	if context < -1 {
+		context = -1
+	}
+	c.context = context
+	return c
+}
+
 func split(s string, r Region) []string {
 	sc := bufio.NewScanner(strings.NewReader(s))
-	l := make([]string, 0, r.end.line-r.start.line+1)
-	line := 1
+	l := []string{}
 	for sc.Scan() {
-		if line >= r.start.line && line <= r.end.line {
-			l = append(l, sc.Text())
-		}
-		line++
-		if line > r.end.line {
-			break
-		}
+		l = append(l, sc.Text())
 	}
 	return l
 }
@@ -54,20 +61,23 @@ func (c Ctx) String() string {
 	buf := &bytes.Buffer{}
 	linePosMaxLen := posLen(c.end.line)
 	for i, line := range c.lines {
-		linePos := c.start.line + i
+		linePos := i + 1
+		if c.context != -1 && (linePos < c.start.line-c.context || linePos > c.end.line+c.context) {
+			continue
+		}
 		c.writeLineGutter(buf, linePos, linePosMaxLen)
 		buf.WriteString(line)
 		buf.WriteByte('\n')
-
+		if linePos < c.start.line || linePos > c.end.line {
+			continue
+		}
 		c.writeLineGutter(buf, 0, linePosMaxLen)
 		buf.WriteString(strings.Repeat(" ", c.getPad(linePos)))
 		buf.WriteString(color.RedString("%s", strings.Repeat("^", c.getDots(linePos, line))))
 		if c.hint != "" && c.start.line == linePos {
 			fmt.Fprintf(buf, " %s", c.hint)
 		}
-		if linePos < c.end.line {
-			buf.WriteString("\n")
-		}
+		buf.WriteString("\n")
 	}
 	return buf.String()
 }
