@@ -64,18 +64,20 @@ func split(s string, r Region) []string {
 
 func (c Ctx) String() string {
 	buf := &bytes.Buffer{}
-	linePosMaxLen := posLen(c.end.line)
-	for i, line := range c.lines {
-		linePos := i + 1
-		if c.context != -1 && (linePos < c.start.line-c.context || linePos > c.end.line+c.context) {
-			continue
-		}
+	start, end := c.lineIndex()
+	// length of highest line number
+	linePosMaxLen := posLen(end)
+	for i, line := range c.lines[start:end] {
+		linePos := start + i + 1
+		// write line no. gutter and actual line
 		c.writeLineGutter(buf, linePos, linePosMaxLen)
 		buf.WriteString(line)
 		buf.WriteByte('\n')
 		if linePos < c.start.line || linePos > c.end.line {
+			// this was just context, don't point at it
 			continue
 		}
+		// this line is being pointed at
 		c.writeLineGutter(buf, 0, linePosMaxLen)
 		buf.WriteString(strings.Repeat(" ", c.getPad(linePos)))
 		buf.WriteString(color.RedString("%s", strings.Repeat(string(DefaultPointer), c.getDots(linePos, line))))
@@ -85,6 +87,22 @@ func (c Ctx) String() string {
 		buf.WriteString("\n")
 	}
 	return buf.String()
+}
+
+// start and end index of Ctx.lines including lines of context.
+func (c Ctx) lineIndex() (start, end int) {
+	if c.context < 0 {
+		return 0, len(c.lines)
+	}
+	start = c.start.line - c.context - 1
+	if start < 0 {
+		start = 0
+	}
+	end = c.end.line + c.context
+	if end > len(c.lines) {
+		end = len(c.lines)
+	}
+	return
 }
 
 func posLen(i int) int {
