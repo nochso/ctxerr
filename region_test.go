@@ -8,7 +8,9 @@ func TestRegion(t *testing.T) {
 		exp string
 	}{
 		{Point(1, 1), "1:1"},
+		{Point(1, 0), "1"},
 		{Point(1, 5), "1:5"},
+		{Range(1, 0, 2, 0), "1-2"},
 		{Range(1, 1, 1, 5), "1:1-5"},
 		{Range(1, 1, 5, 1), "1:1-5:1"},
 	}

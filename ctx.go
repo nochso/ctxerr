@@ -119,12 +119,21 @@ func (c Ctx) getDots(pos int, line string) int {
 		return 1
 	}
 	if !c.isMultiLine() {
+		if c.start.col == 0 {
+			return utf8.RuneCountInString(line)
+		}
 		return c.end.col - c.start.col + 1
 	}
 	if c.start.line == pos {
+		if c.start.col == 0 {
+			return utf8.RuneCountInString(line)
+		}
 		return utf8.RuneCountInString(line) - c.start.col + 1
 	}
 	if c.end.line == pos {
+		if c.end.col == 0 {
+			return utf8.RuneCountInString(line)
+		}
 		return c.end.col
 	}
 	return utf8.RuneCountInString(line)
@@ -133,6 +142,9 @@ func (c Ctx) getDots(pos int, line string) int {
 func (c Ctx) getPad(pos int) int {
 	pad := c.start.col - 1
 	if c.isMultiLine() && c.start.line != pos {
+		pad = 0
+	}
+	if (c.start.line == pos && c.start.col == 0) || (c.end.line == pos && c.end.col == 0) {
 		pad = 0
 	}
 	return pad

@@ -14,6 +14,7 @@ Unreleased
 
 - Exported all fields of Ctx.
 - Exported all fields of Err.
+- Proper handling of Region with zero columns. It is now treated as a full line.
 
 ### Removed
 
