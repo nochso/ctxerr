@@ -18,7 +18,7 @@ Unreleased
 ### Removed
 
 - Method `Error.Inner()` as it is now exported as field `Inner`.
-
+- Method `Ctx.WithPath()` as it now exported.
 
 0.1.0
 =====

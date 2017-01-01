@@ -23,6 +23,7 @@ type Ctx struct {
 	Lines   []string
 	Context int
 	Region
+	// Path to the source of the context (optional).
 	Path string
 	Hint string
 }
@@ -50,12 +51,6 @@ func (c Ctx) WithHint(hint string) Ctx {
 //	 3: limited context of 3 lines
 func (c Ctx) WithContext(context int) Ctx {
 	c.Context = context
-	return c
-}
-
-// WithPath returns a Ctx with the given path added to the region string.
-func (c Ctx) WithPath(path string) Ctx {
-	c.Path = path
 	return c
 }
 

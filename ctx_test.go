@@ -97,8 +97,9 @@ func ExampleCtx_WithContext_all() {
 	// 5 | 5th
 }
 
-func ExampleCtx_WithPath() {
-	ctx := New("42", Point(1, 1)).WithPath("/tmp/ctxerr/answer.txt")
+func ExampleCtx_Path() {
+	ctx := New("42", Point(1, 1))
+	ctx.Path = "/tmp/ctxerr/answer.txt"
 	fmt.Println(ctx)
 	// Output:
 	// /tmp/ctxerr/answer.txt:1:1:
