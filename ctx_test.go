@@ -37,7 +37,8 @@ func ExampleRange_multiline() {
 }
 
 func ExampleCtx_WithHint() {
-	ctx := New("010101102110", Point(1, 9)).WithHint("don't worry, bender")
+	ctx := New("010101102110", Point(1, 9))
+	ctx.Hint = "don't worry, bender"
 	fmt.Println(ctx)
 	// Output:
 	// 1:9:

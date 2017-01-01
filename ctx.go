@@ -25,6 +25,7 @@ type Ctx struct {
 	Region
 	// Path to the source of the context (optional).
 	Path string
+	// Hint that is displayed near the region markers (optional).
 	Hint string
 }
 
@@ -36,12 +37,6 @@ func New(input string, region Region) Ctx {
 		Lines:  split(input, region),
 		Region: region,
 	}
-}
-
-// WithHint returns a Ctx with a text hint that is displayed near the region markers.
-func (c Ctx) WithHint(hint string) Ctx {
-	c.Hint = hint
-	return c
 }
 
 // WithContext returns a Ctx with a maximum amount of context lines.
