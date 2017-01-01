@@ -12,7 +12,12 @@ Unreleased
 
 ### Changed
 
-- Exported all Ctx fields.
+- Exported all fields of Ctx.
+- Exported all fields of Err.
+
+### Removed
+
+- Method `Error.Inner()` as it is now exported as field `Inner`.
 
 
 0.1.0

@@ -21,7 +21,7 @@ func TestError_Inner(t *testing.T) {
 	cause := fmt.Errorf("foo must not be negative")
 	ctx := New("foo = -1", Point(1, 7))
 	err := NewError(cause, ctx)
-	if err.Inner() != cause {
-		t.Fatalf("expected %s; got %s", cause, err.Inner())
+	if err.Inner != cause {
+		t.Fatalf("expected %s; got %s", cause, err.Inner)
 	}
 }
