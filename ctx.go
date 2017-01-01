@@ -20,7 +20,12 @@ var (
 
 // Ctx points to runes in (multiline) strings.
 type Ctx struct {
-	Lines   []string
+	Lines []string
+	// Context is the maximum amount of context lines surrounding the marked region.
+	//
+	//	 0: no lines of context.
+	//	-1: all lines, the full input string
+	//	 3: limited context of 3 lines
 	Context int
 	Region
 	// Path to the source of the context (optional).
@@ -37,16 +42,6 @@ func New(input string, region Region) Ctx {
 		Lines:  split(input, region),
 		Region: region,
 	}
-}
-
-// WithContext returns a Ctx with a maximum amount of context lines.
-//
-//	 0: no lines of context.
-//	-1: all lines, the full input string
-//	 3: limited context of 3 lines
-func (c Ctx) WithContext(context int) Ctx {
-	c.Context = context
-	return c
 }
 
 func split(s string, r Region) []string {

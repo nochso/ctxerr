@@ -52,7 +52,8 @@ func ExampleCtx_WithContext_limited() {
 3rd has an error
 4th
 5th`
-	ctx := New(in, Point(3, 12)).WithContext(1)
+	ctx := New(in, Point(3, 12))
+	ctx.Context = 1
 	fmt.Println(ctx)
 	// Output:
 	// 3:12:
@@ -68,7 +69,8 @@ func ExampleCtx_WithContext_limitedMultiline() {
 3rd has an error
 4th still has an error
 5th`
-	ctx := New(in, Range(3, 1, 4, 22)).WithContext(1)
+	ctx := New(in, Range(3, 1, 4, 22))
+	ctx.Context = 1
 	fmt.Println(ctx)
 	// Output:
 	// 3:1-4:22:
@@ -86,7 +88,8 @@ func ExampleCtx_WithContext_all() {
 3rd has an error
 4th
 5th`
-	ctx := New(in, Point(3, 12)).WithContext(-1)
+	ctx := New(in, Point(3, 12))
+	ctx.Context = -1
 	fmt.Println(ctx)
 	// Output:
 	// 3:12:
