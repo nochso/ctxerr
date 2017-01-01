@@ -20,11 +20,11 @@ var (
 
 // Ctx points to runes in (multiline) strings.
 type Ctx struct {
-	lines   []string
-	context int
+	Lines   []string
+	Context int
 	Region
-	path string
-	hint string
+	Path string
+	Hint string
 }
 
 // New returns a new Ctx pointing to a region in input.
@@ -32,14 +32,14 @@ type Ctx struct {
 // See functions Point and Range.
 func New(input string, region Region) Ctx {
 	return Ctx{
-		lines:  split(input, region),
+		Lines:  split(input, region),
 		Region: region,
 	}
 }
 
 // WithHint returns a Ctx with a text hint that is displayed near the region markers.
 func (c Ctx) WithHint(hint string) Ctx {
-	c.hint = hint
+	c.Hint = hint
 	return c
 }
 
@@ -49,13 +49,13 @@ func (c Ctx) WithHint(hint string) Ctx {
 //	-1: all lines, the full input string
 //	 3: limited context of 3 lines
 func (c Ctx) WithContext(context int) Ctx {
-	c.context = context
+	c.Context = context
 	return c
 }
 
 // WithPath returns a Ctx with the given path added to the region string.
 func (c Ctx) WithPath(path string) Ctx {
-	c.path = path
+	c.Path = path
 	return c
 }
 
@@ -75,14 +75,14 @@ func (c Ctx) ToError(err error) Error {
 
 func (c Ctx) String() string {
 	buf := &bytes.Buffer{}
-	if c.path != "" {
-		fmt.Fprintf(buf, "%s:", c.path)
+	if c.Path != "" {
+		fmt.Fprintf(buf, "%s:", c.Path)
 	}
 	fmt.Fprintf(buf, "%s:\n", c.Region)
 	start, end := c.lineIndex()
 	// length of highest line number
 	linePosMaxLen := posLen(end)
-	for i, line := range c.lines[start:end] {
+	for i, line := range c.Lines[start:end] {
 		linePos := start + i + 1
 		// write line no. gutter and actual line
 		c.writeLineGutter(buf, linePos, linePosMaxLen)
@@ -96,26 +96,26 @@ func (c Ctx) String() string {
 		c.writeLineGutter(buf, 0, linePosMaxLen)
 		buf.WriteString(strings.Repeat(" ", c.getPad(linePos)))
 		buf.WriteString(color.RedString("%s", strings.Repeat(string(DefaultPointer), c.getDots(linePos, line))))
-		if c.hint != "" && c.start.line == linePos {
-			fmt.Fprintf(buf, " %s", c.hint)
+		if c.Hint != "" && c.start.line == linePos {
+			fmt.Fprintf(buf, " %s", c.Hint)
 		}
 		buf.WriteString("\n")
 	}
 	return buf.String()
 }
 
-// start and end index of Ctx.lines including lines of context.
+// start and end index of Ctx.Lines including lines of context.
 func (c Ctx) lineIndex() (start, end int) {
-	if c.context < 0 {
-		return 0, len(c.lines)
+	if c.Context < 0 {
+		return 0, len(c.Lines)
 	}
-	start = c.start.line - c.context - 1
+	start = c.start.line - c.Context - 1
 	if start < 0 {
 		start = 0
 	}
-	end = c.end.line + c.context
-	if end > len(c.lines) {
-		end = len(c.lines)
+	end = c.end.line + c.Context
+	if end > len(c.Lines) {
+		end = len(c.Lines)
 	}
 	return
 }
