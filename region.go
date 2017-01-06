@@ -2,20 +2,20 @@ package ctxerr
 
 import "fmt"
 
-type position struct {
-	line, col int
+type Position struct {
+	Line, Col int
 }
 
-func (p position) String() string {
-	if p.col == 0 {
-		return fmt.Sprintf("%d", p.line)
+func (p Position) String() string {
+	if p.Col == 0 {
+		return fmt.Sprintf("%d", p.Line)
 	}
-	return fmt.Sprintf("%d:%d", p.line, p.col)
+	return fmt.Sprintf("%d:%d", p.Line, p.Col)
 }
 
 // Region defines a selection of runes (utf8 codepoints) in a string.
 type Region struct {
-	start, end position
+	start, end Position
 }
 
 // Point returns a Region pointing to a specific rune.
@@ -28,8 +28,8 @@ func Point(line, col int) Region {
 // Line and column are one-based.
 func Range(startLine, startCol, endLine, endCol int) Region {
 	return Region{
-		start: position{startLine, startCol},
-		end:   position{endLine, endCol},
+		start: Position{startLine, startCol},
+		end:   Position{endLine, endCol},
 	}
 }
 
@@ -47,16 +47,16 @@ func (r Region) String() string {
 	if r.isMultiLine() {
 		return fmt.Sprintf("%s-%s", r.start.String(), r.end.String())
 	}
-	if r.end.col == 0 {
+	if r.end.Col == 0 {
 		return r.end.String()
 	}
-	return fmt.Sprintf("%s-%d", r.start.String(), r.end.col)
+	return fmt.Sprintf("%s-%d", r.start.String(), r.end.Col)
 }
 
 func (r Region) isPointer() bool {
-	return r.start.line == r.end.line && r.start.col == r.end.col && r.start.col != 0
+	return r.start.Line == r.end.Line && r.start.Col == r.end.Col && r.start.Col != 0
 }
 
 func (r Region) isMultiLine() bool {
-	return r.start.line != r.end.line
+	return r.start.Line != r.end.Line
 }

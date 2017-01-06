@@ -73,7 +73,7 @@ func (c Ctx) String() string {
 		c.writeLineGutter(buf, linePos, linePosMaxLen)
 		buf.WriteString(line)
 		buf.WriteByte('\n')
-		if linePos < c.start.line || linePos > c.end.line {
+		if linePos < c.start.Line || linePos > c.end.Line {
 			// this was just context, don't point at it
 			continue
 		}
@@ -81,7 +81,7 @@ func (c Ctx) String() string {
 		c.writeLineGutter(buf, 0, linePosMaxLen)
 		buf.WriteString(strings.Repeat(" ", c.getPad(linePos)))
 		buf.WriteString(color.RedString("%s", strings.Repeat(string(DefaultPointer), c.getDots(linePos, line))))
-		if c.Hint != "" && c.start.line == linePos {
+		if c.Hint != "" && c.start.Line == linePos {
 			fmt.Fprintf(buf, " %s", c.Hint)
 		}
 		buf.WriteString("\n")
@@ -94,11 +94,11 @@ func (c Ctx) lineIndex() (start, end int) {
 	if c.Context < 0 {
 		return 0, len(c.Lines)
 	}
-	start = c.start.line - c.Context - 1
+	start = c.start.Line - c.Context - 1
 	if start < 0 {
 		start = 0
 	}
-	end = c.end.line + c.Context
+	end = c.end.Line + c.Context
 	if end > len(c.Lines) {
 		end = len(c.Lines)
 	}
@@ -114,32 +114,32 @@ func (c Ctx) getDots(pos int, line string) int {
 		return 1
 	}
 	if !c.isMultiLine() {
-		if c.start.col == 0 {
+		if c.start.Col == 0 {
 			return utf8.RuneCountInString(line)
 		}
-		return c.end.col - c.start.col + 1
+		return c.end.Col - c.start.Col + 1
 	}
-	if c.start.line == pos {
-		if c.start.col == 0 {
+	if c.start.Line == pos {
+		if c.start.Col == 0 {
 			return utf8.RuneCountInString(line)
 		}
-		return utf8.RuneCountInString(line) - c.start.col + 1
+		return utf8.RuneCountInString(line) - c.start.Col + 1
 	}
-	if c.end.line == pos {
-		if c.end.col == 0 {
+	if c.end.Line == pos {
+		if c.end.Col == 0 {
 			return utf8.RuneCountInString(line)
 		}
-		return c.end.col
+		return c.end.Col
 	}
 	return utf8.RuneCountInString(line)
 }
 
 func (c Ctx) getPad(pos int) int {
-	pad := c.start.col - 1
-	if c.isMultiLine() && c.start.line != pos {
+	pad := c.start.Col - 1
+	if c.isMultiLine() && c.start.Line != pos {
 		pad = 0
 	}
-	if (c.start.line == pos && c.start.col == 0) || (c.end.line == pos && c.end.col == 0) {
+	if (c.start.Line == pos && c.start.Col == 0) || (c.end.Line == pos && c.end.Col == 0) {
 		pad = 0
 	}
 	return pad

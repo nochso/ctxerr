@@ -12,6 +12,7 @@ Unreleased
 
 ### Changed
 
+- Exported Position (a Region consists of two position).
 - Exported all fields of Ctx.
 - Exported all fields of Err.
 - Proper handling of Region with zero columns. It is now treated as a full line.
