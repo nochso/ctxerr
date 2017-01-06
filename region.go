@@ -15,7 +15,7 @@ func (p Position) String() string {
 
 // Region defines a selection of runes (utf8 codepoints) in a string.
 type Region struct {
-	start, end Position
+	Start, End Position
 }
 
 // Point returns a Region pointing to a specific rune.
@@ -28,8 +28,8 @@ func Point(line, col int) Region {
 // Line and column are one-based.
 func Range(startLine, startCol, endLine, endCol int) Region {
 	return Region{
-		start: Position{startLine, startCol},
-		end:   Position{endLine, endCol},
+		Start: Position{startLine, startCol},
+		End:   Position{endLine, endCol},
 	}
 }
 
@@ -42,21 +42,21 @@ func Range(startLine, startCol, endLine, endCol int) Region {
 //	1:1-2:1 // range over multiple lines
 func (r Region) String() string {
 	if r.isPointer() {
-		return r.start.String()
+		return r.Start.String()
 	}
 	if r.isMultiLine() {
-		return fmt.Sprintf("%s-%s", r.start.String(), r.end.String())
+		return fmt.Sprintf("%s-%s", r.Start.String(), r.End.String())
 	}
-	if r.end.Col == 0 {
-		return r.end.String()
+	if r.End.Col == 0 {
+		return r.End.String()
 	}
-	return fmt.Sprintf("%s-%d", r.start.String(), r.end.Col)
+	return fmt.Sprintf("%s-%d", r.Start.String(), r.End.Col)
 }
 
 func (r Region) isPointer() bool {
-	return r.start.Line == r.end.Line && r.start.Col == r.end.Col && r.start.Col != 0
+	return r.Start.Line == r.End.Line && r.Start.Col == r.End.Col && r.Start.Col != 0
 }
 
 func (r Region) isMultiLine() bool {
-	return r.start.Line != r.end.Line
+	return r.Start.Line != r.End.Line
 }
