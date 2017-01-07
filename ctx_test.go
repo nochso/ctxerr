@@ -36,7 +36,7 @@ func ExampleRange_multiline() {
 	//   | ^^^^
 }
 
-func ExampleCtx_WithHint() {
+func ExampleCtx_String_hint() {
 	ctx := New("010101102110", Point(1, 9))
 	ctx.Hint = "don't worry, bender"
 	fmt.Println(ctx)
@@ -46,7 +46,7 @@ func ExampleCtx_WithHint() {
 	//   |         ^ don't worry, bender
 }
 
-func ExampleCtx_WithContext_limited() {
+func ExampleCtx_String_contextLimited() {
 	in := `1st
 2nd
 3rd has an error
@@ -63,7 +63,7 @@ func ExampleCtx_WithContext_limited() {
 	// 4 | 4th
 }
 
-func ExampleCtx_WithContext_limitedMultiline() {
+func ExampleCtx_String_contextLimitedMultiline() {
 	in := `1st
 2nd
 3rd has an error
@@ -82,7 +82,7 @@ func ExampleCtx_WithContext_limitedMultiline() {
 	// 5 | 5th
 }
 
-func ExampleCtx_WithContext_all() {
+func ExampleCtx_String_contextAll() {
 	in := `1st
 2nd
 3rd has an error
@@ -101,7 +101,7 @@ func ExampleCtx_WithContext_all() {
 	// 5 | 5th
 }
 
-func ExampleCtx_Path() {
+func ExampleCtx_String_path() {
 	ctx := New("42", Point(1, 1))
 	ctx.Path = "/tmp/ctxerr/answer.txt"
 	fmt.Println(ctx)
