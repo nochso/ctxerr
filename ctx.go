@@ -16,6 +16,9 @@ var (
 	DefaultGutter = " | "
 	// DefaultPointer is the rune that points up at a region.
 	DefaultPointer = '^'
+	// DefaultContext is the default amount of context lines surrounding an error.
+	// It is used by New* functions.
+	DefaultContext = 0
 )
 
 // Ctx points to runes in (multiline) strings.
@@ -39,8 +42,9 @@ type Ctx struct {
 // See functions Point and Range.
 func New(input string, region Region) Ctx {
 	return Ctx{
-		Lines:  split(input, region),
-		Region: region,
+		Lines:   split(input, region),
+		Region:  region,
+		Context: DefaultContext,
 	}
 }
 

@@ -10,6 +10,11 @@ project adheres to [Semantic Versioning](http://semver.org/).
 Unreleased
 ==========
 
+### Added
+
+- Global integer `DefaultContext` allows you to override the default amount of
+  context lines (default 0).
+
 ### Changed
 
 - Exported Position (a Region consists of two position).
