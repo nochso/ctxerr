@@ -14,6 +14,8 @@ Unreleased
 
 - Global integer `DefaultContext` allows you to override the default amount of
   context lines (default 0).
+- Function `NewFromPath(path string, region ctxerr.Region) (ctxerr.Ctx, error)`
+  returns a new Ctx based on a path to an existing file.
 
 ### Changed
 

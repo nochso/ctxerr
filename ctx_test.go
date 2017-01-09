@@ -131,3 +131,17 @@ func ExampleCtx_String_tabwidth() {
 	// 1 |     foo    bar
 	//   |        ^^^^
 }
+
+func ExampleNewFromPath() {
+	cerr, err := NewFromPath("LICENSE", Range(1, 1, 1, 3))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	cerr.Context = 0
+	fmt.Println(cerr)
+	// Output:
+	// LICENSE:1:1-3:
+	// 1 | MIT License
+	//   | ^^^
+}

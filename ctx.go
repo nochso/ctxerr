@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -46,6 +47,18 @@ func New(input string, region Region) Ctx {
 		Region:  region,
 		Context: DefaultContext,
 	}
+}
+
+// NewFromPath returns a new Ctx pointing to a region in the given file.
+// Returns an error when the file does not exist or could not be read.
+func NewFromPath(path string, region Region) (Ctx, error) {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return Ctx{}, err
+	}
+	c := New(string(b), region)
+	c.Path = path
+	return c, nil
 }
 
 func split(s string, r Region) []string {
