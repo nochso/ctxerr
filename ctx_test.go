@@ -121,3 +121,13 @@ func ExampleCtx_ToError() {
 	// 1 | ab!cd
 	//   |   ^
 }
+
+func ExampleCtx_String_tabwidth() {
+	in := "\tfoo\tbar"
+	ctx := New(in, Point(1, 5))
+	fmt.Println(ctx)
+	// Output:
+	// 1:5:
+	// 1 |     foo    bar
+	//   |        ^^^^
+}

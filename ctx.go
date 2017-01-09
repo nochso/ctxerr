@@ -75,7 +75,7 @@ func (c Ctx) String() string {
 		linePos := start + i + 1
 		// write line no. gutter and actual line
 		c.writeLineGutter(buf, linePos, linePosMaxLen)
-		buf.WriteString(line)
+		buf.WriteString(strings.Replace(line, "\t", "    ", -1))
 		buf.WriteByte('\n')
 		if linePos < c.Start.Line || linePos > c.End.Line {
 			// this was just context, don't point at it
@@ -114,38 +114,28 @@ func posLen(i int) int {
 }
 
 func (c Ctx) getDots(pos int, line string) int {
-	if c.isPointer() {
-		return 1
+	start := 0
+	end := len(line)
+	if c.Start.Line == pos && c.Start.Col != 0 {
+		start = c.Start.Col - 1
 	}
-	if !c.isMultiLine() {
-		if c.Start.Col == 0 {
-			return utf8.RuneCountInString(line)
-		}
-		return c.End.Col - c.Start.Col + 1
+	if c.End.Line == pos && c.End.Col != 0 {
+		end = c.End.Col
 	}
-	if c.Start.Line == pos {
-		if c.Start.Col == 0 {
-			return utf8.RuneCountInString(line)
-		}
-		return utf8.RuneCountInString(line) - c.Start.Col + 1
-	}
-	if c.End.Line == pos {
-		if c.End.Col == 0 {
-			return utf8.RuneCountInString(line)
-		}
-		return c.End.Col
-	}
-	return utf8.RuneCountInString(line)
+
+	s := line[start:end]
+	return utf8.RuneCountInString(s) + strings.Count(s, "\t")*3
 }
 
 func (c Ctx) getPad(pos int) int {
-	pad := c.Start.Col - 1
 	if c.isMultiLine() && c.Start.Line != pos {
-		pad = 0
+		return 0
 	}
 	if (c.Start.Line == pos && c.Start.Col == 0) || (c.End.Line == pos && c.End.Col == 0) {
-		pad = 0
+		return 0
 	}
+	pad := c.Start.Col - 1
+	pad += strings.Count(c.Lines[c.Start.Line-1][:pad], "\t") * 3
 	return pad
 }
 
