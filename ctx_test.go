@@ -12,6 +12,14 @@ func init() {
 	color.NoColor = true
 }
 
+func ExampleNew() {
+	fmt.Println(New("source code containing error", Range(1, 24, 1, 28)))
+	// Output:
+	// 1:24-28:
+	// 1 | source code containing error
+	//   |                        ^^^^^
+}
+
 func ExamplePoint() {
 	fmt.Println(New("00100", Point(1, 3)))
 	// Output:
