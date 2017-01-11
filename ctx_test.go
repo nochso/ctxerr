@@ -178,3 +178,15 @@ func TestCtx_Error_contextBoundaries(t *testing.T) {
 		t.Errorf("expected %#v, got %#v", exp, act)
 	}
 }
+
+func TestCtx_Error_nilColumn(t *testing.T) {
+	ctx := New("foo", Point(1, 0))
+	exp := `1:
+1 | foo
+  | ^^^
+`
+	act := ctx.Error()
+	if exp != act {
+		t.Errorf("expected %#v, got %#v", exp, act)
+	}
+}
