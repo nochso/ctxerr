@@ -19,9 +19,9 @@ parser_test.go:1:8:
 1 | package ctxerr
   |        ^
 `
-  if ctx.Error() != expected {
-      t.Errorf("expected:\n%#v\ngot:\n%#v", expected, ctx.Error())
-  }
+	if ctx.Error() != expected {
+		t.Errorf("expected:\n%#v\ngot:\n%#v", expected, ctx.Error())
+	}
 }
 
 func TestParse_NoMatch(t *testing.T) {

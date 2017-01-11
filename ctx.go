@@ -36,7 +36,7 @@ type Ctx struct {
 	Path string
 	// Hint that is displayed near the region markers (optional).
 	Hint string
-	// Err is the error that occured at this region (optional).
+	// Err is the error that occurred at this region (optional).
 	Err error
 }
 
