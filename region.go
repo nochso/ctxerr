@@ -2,10 +2,15 @@ package ctxerr
 
 import "fmt"
 
+// Position of a single point in a multiline string.
 type Position struct {
 	Line, Col int
 }
 
+// String representation of a Position.
+//
+//	1
+//	1:2
 func (p Position) String() string {
 	if p.Col == 0 {
 		return fmt.Sprintf("%d", p.Line)
