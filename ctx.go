@@ -40,9 +40,9 @@ type Ctx struct {
 	Err error
 }
 
-// New returns a new Ctx pointing to a region in input.
+// New returns a new Ctx pointing to a region in an input string.
 //
-// See functions Point and Range.
+// Use functions Point and Range to create a Region.
 func New(input string, region Region) Ctx {
 	return Ctx{
 		Lines:   split(input, region),
