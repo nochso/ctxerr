@@ -165,3 +165,16 @@ func TestNewFromPath_NoSuchFile(t *testing.T) {
 		t.Errorf("expected %#v, got %#v", os.ErrNotExist.Error(), err.Error())
 	}
 }
+
+func TestCtx_Error_contextBoundaries(t *testing.T) {
+	ctx := New("x", Point(1, 1))
+	ctx.Context = 42
+	exp := `1:1:
+1 | x
+  | ^
+`
+	act := ctx.Error()
+	if exp != act {
+		t.Errorf("expected %#v, got %#v", exp, act)
+	}
+}
