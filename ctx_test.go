@@ -46,7 +46,7 @@ func ExampleRange_multiline() {
 	//   | ^^^^
 }
 
-func ExampleCtx_String_hint() {
+func ExampleCtx_Error_hint() {
 	ctx := New("010101102110", Point(1, 9))
 	ctx.Hint = "don't worry, bender"
 	fmt.Println(ctx)
@@ -56,7 +56,7 @@ func ExampleCtx_String_hint() {
 	//   |         ^ don't worry, bender
 }
 
-func ExampleCtx_String_contextLimited() {
+func ExampleCtx_Error_contextLimited() {
 	in := `1st
 2nd
 3rd has an error
@@ -73,7 +73,7 @@ func ExampleCtx_String_contextLimited() {
 	// 4 | 4th
 }
 
-func ExampleCtx_String_contextLimitedMultiline() {
+func ExampleCtx_Error_contextLimitedMultiline() {
 	in := `1st
 2nd
 3rd has an error
@@ -92,7 +92,7 @@ func ExampleCtx_String_contextLimitedMultiline() {
 	// 5 | 5th
 }
 
-func ExampleCtx_String_contextAll() {
+func ExampleCtx_Error_contextAll() {
 	in := `1st
 2nd
 3rd has an error
@@ -111,7 +111,7 @@ func ExampleCtx_String_contextAll() {
 	// 5 | 5th
 }
 
-func ExampleCtx_String_path() {
+func ExampleCtx_Error_path() {
 	ctx := New("42", Point(1, 1))
 	ctx.Path = "/tmp/ctxerr/answer.txt"
 	fmt.Println(ctx)
@@ -121,7 +121,7 @@ func ExampleCtx_String_path() {
 	//   | ^
 }
 
-func ExampleCtx_Err() {
+func ExampleCtx_Error() {
 	err := New("ab!cd", Point(1, 3))
 	err.Err = fmt.Errorf("not a letter")
 	fmt.Println(err)
@@ -132,7 +132,7 @@ func ExampleCtx_Err() {
 	//   |   ^
 }
 
-func ExampleCtx_String_tabwidth() {
+func ExampleCtx_Error_tabwidth() {
 	in := "\tfoo\tbar"
 	ctx := New(in, Point(1, 5))
 	fmt.Println(ctx)
