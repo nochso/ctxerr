@@ -36,6 +36,8 @@ type Ctx struct {
 	Path string
 	// Hint that is displayed near the region markers (optional).
 	Hint string
+	// Err is the error that occured at this region (optional).
+	Err error
 }
 
 // New returns a new Ctx pointing to a region in input.
@@ -70,13 +72,12 @@ func split(s string, r Region) []string {
 	return l
 }
 
-// ToError wraps err with this context.
-func (c Ctx) ToError(err error) Error {
-	return NewError(err, c)
-}
-
-func (c Ctx) String() string {
+// Error formats a summary of this context error.
+func (c Ctx) Error() string {
 	buf := &bytes.Buffer{}
+	if c.Err != nil {
+		fmt.Fprintf(buf, "%s\n", c.Err)
+	}
 	if c.Path != "" {
 		fmt.Fprintf(buf, "%s:", c.Path)
 	}

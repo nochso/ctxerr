@@ -111,9 +111,9 @@ func ExampleCtx_String_path() {
 	//   | ^
 }
 
-func ExampleCtx_ToError() {
-	cause := fmt.Errorf("not a letter")
-	err := New("ab!cd", Point(1, 3)).ToError(cause)
+func ExampleCtx_Err() {
+	err := New("ab!cd", Point(1, 3))
+	err.Err = fmt.Errorf("not a letter")
 	fmt.Println(err)
 	// Output:
 	// not a letter

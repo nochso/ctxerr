@@ -16,17 +16,18 @@ Unreleased
   context lines (default 0).
 - Function `NewFromPath(path string, region ctxerr.Region) (ctxerr.Ctx, error)`
   returns a new Ctx based on a path to an existing file.
+- Method `Ctx.Error()` implementing the error interface, replacing `Ctx.String()`.
 
 ### Changed
 
 - Exported Position (a Region consists of two position).
-- Exported all fields of Ctx, Err and Region.
+- Exported all fields of Ctx and Region.
 - Proper handling of Region with zero columns. It is now treated as a full line.
 
 ### Removed
 
-- Method `Error.Inner()` as it is now exported as field `Inner`.
 - Methods of `Ctx`: `WithPath`, `WithContext` and `WithHint` as they're now exported as fields.
+- Struct `Error` and method `Ctx.ToError()`. Use the exported `Err` field of `Ctx` instead.
 
 ## Fixed
 
