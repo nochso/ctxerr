@@ -17,6 +17,9 @@ Unreleased
 - Function `NewFromPath(path string, region ctxerr.Region) (ctxerr.Ctx, error)`
   returns a new Ctx based on a path to an existing file.
 - Method `Ctx.Error()` implementing the error interface, replacing `Ctx.String()`.
+- Function `Parse(line string) (*Ctx, error)` parses typical linter output into
+  Ctx structs.
+  Returns error `ErrNoMatch` when unlikely to be a linter error.
 
 ### Changed
 
