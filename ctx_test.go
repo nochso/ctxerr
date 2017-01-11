@@ -2,6 +2,8 @@ package ctxerr
 
 import (
 	"fmt"
+	"os"
+	"testing"
 
 	"github.com/fatih/color"
 )
@@ -144,4 +146,14 @@ func ExampleNewFromPath() {
 	// LICENSE:1:1-3:
 	// 1 | MIT License
 	//   | ^^^
+}
+
+func TestNewFromPath_NoSuchFile(t *testing.T) {
+	_, err := NewFromPath("foo.txt", Point(1, 1))
+	if err == nil {
+		t.Error("expected error, got nil")
+	}
+	if !os.IsNotExist(err) {
+		t.Errorf("expected %#v, got %#v", os.ErrNotExist.Error(), err.Error())
+	}
 }
