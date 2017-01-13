@@ -10,8 +10,8 @@ import (
 
 var (
 	// ErrNoMatch is returned by Parse when no file path or position can be found.
-	ErrNoMatch      = fmt.Errorf("line does not match position pattern: %s", positionPattern.String())
-	positionPattern = regexp.MustCompile(`^(.+?):(\d+):(\d+)?:?\s*(.*)$`)
+	ErrNoMatch       = fmt.Errorf("line does not match position pattern: %s", matchRegionColon.String())
+	matchRegionColon = regexp.MustCompile(`^(.+?):(\d+):(\d+)?:?\s*(.*)$`)
 )
 
 // Parse a single line with at least a file path and position.
@@ -20,7 +20,7 @@ var (
 //
 //	ctx, err := ctxerr.Parse(`foo.go:15:1:`)
 func Parse(line string) (*Ctx, error) {
-	m := positionPattern.FindStringSubmatch(line)
+	m := matchRegionColon.FindStringSubmatch(line)
 	if len(m) == 0 {
 		return nil, ErrNoMatch
 	}
