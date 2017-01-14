@@ -182,6 +182,15 @@ func TestCtx_Error_contextBoundaries(t *testing.T) {
 	testCmp(t, exp, ctx.Error())
 }
 
+func TestCtx_Error_pointsOutside(t *testing.T) {
+	ctx := New("'who needs closing quotes?", Point(1, 27))
+	exp := `1:27:
+1 | 'who needs closing quotes?
+  |                           ^
+`
+	testCmp(t, exp, ctx.Error())
+}
+
 func TestCtx_Error_nilColumn(t *testing.T) {
 	ctx := New("foo", Point(1, 0))
 	exp := `1:
