@@ -137,8 +137,16 @@ func (c Ctx) getDots(pos int, line string) int {
 		end = c.End.Col
 	}
 
+	// How far do we go "over the line"?
+	// Remember the extra and limit the end to avoid index errors.
+	extra := 0
+	if end > len(line) {
+		extra = end - len(line)
+		end = len(line)
+	}
 	s := line[start:end]
-	return utf8.RuneCountInString(s) + strings.Count(s, "\t")*3
+	// add extra dots over the line
+	return extra + utf8.RuneCountInString(s) + strings.Count(s, "\t")*3
 }
 
 func (c Ctx) getPad(pos int) int {

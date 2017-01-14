@@ -35,6 +35,7 @@ Unreleased
 ## Fixed
 
 - Tabs are now properly handled when padding and pointing to regions.
+- No more panic when pointing outside of the line (to the right).
 
 
 0.1.0
