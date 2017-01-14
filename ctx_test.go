@@ -166,6 +166,12 @@ func TestNewFromPath_NoSuchFile(t *testing.T) {
 	}
 }
 
+func testCmp(t *testing.T, exp, act string) {
+	if exp != act {
+		t.Errorf("expected %#v, got %#v", exp, act)
+	}
+}
+
 func TestCtx_Error_contextBoundaries(t *testing.T) {
 	ctx := New("x", Point(1, 1))
 	ctx.Context = 42
@@ -173,10 +179,7 @@ func TestCtx_Error_contextBoundaries(t *testing.T) {
 1 | x
   | ^
 `
-	act := ctx.Error()
-	if exp != act {
-		t.Errorf("expected %#v, got %#v", exp, act)
-	}
+	testCmp(t, exp, ctx.Error())
 }
 
 func TestCtx_Error_nilColumn(t *testing.T) {
@@ -185,8 +188,5 @@ func TestCtx_Error_nilColumn(t *testing.T) {
 1 | foo
   | ^^^
 `
-	act := ctx.Error()
-	if exp != act {
-		t.Errorf("expected %#v, got %#v", exp, act)
-	}
+	testCmp(t, exp, ctx.Error())
 }
