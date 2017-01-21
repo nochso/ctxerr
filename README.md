@@ -27,11 +27,7 @@ narf.txt:1:8: string is missing closing quote
 ---
 
 - [Installation](#installation)
-	- [Library](#library)
-	- [CLI utility `ctx`](#cli-utility-ctx)
 - [Documentation](#documentation)
-	- [Library](#library-1)
-	- [CLI utility `ctx`](#cli-utility-ctx-1)
 - [Changes](#changes)
 - [License](#license)
 
