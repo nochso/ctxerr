@@ -11,13 +11,13 @@ import (
 
 var (
 	// Version as specified by ldflags on build or this default.
-	VERSION = "1.0.0"
+	Version = "1.0.0"
 	// BuildDate is optional and can be supplied by ldflags.
-	BUILD_DATE = ""
+	BuildDate = ""
 )
 
 func usage() {
-	bd := BUILD_DATE
+	bd := BuildDate
 	if bd != "" {
 		bd = fmt.Sprintf(" (built %s)", bd)
 	}
@@ -35,7 +35,7 @@ Usage:
 
 Flags:
 `
-	fmt.Printf(format, VERSION, bd)
+	fmt.Printf(format, Version, bd)
 	flag.PrintDefaults()
 }
 

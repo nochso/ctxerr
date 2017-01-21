@@ -4,6 +4,10 @@
 	"PackageVersion": "1.0.0",
 	"ConfigVersion": "0.9",
 	"BuildSettings": {
-		"LdFlags": "-w -s"
+		"LdFlags": "-w -s",
+		"LdFlagsXVars": {
+			"TimeNow": "main.BuildDate",
+			"Version": "main.Version"
+		}
 	}
 }
