@@ -20,6 +20,12 @@ var (
 	// DefaultContext is the default amount of context lines surrounding an error.
 	// It is used by New* functions.
 	DefaultContext = 0
+	// NoColor disables color output.
+	NoColor bool
+)
+
+var (
+	red = color.New(color.FgRed)
 )
 
 // Ctx points to runes in (multiline) strings.
@@ -98,13 +104,20 @@ func (c Ctx) Error() string {
 		// this line is being pointed at
 		c.writeLineGutter(buf, 0, linePosMaxLen)
 		buf.WriteString(strings.Repeat(" ", c.getPad(linePos)))
-		buf.WriteString(color.RedString("%s", strings.Repeat(string(DefaultPointer), c.getDots(linePos, line))))
+		buf.WriteString(paint(red, "%s", strings.Repeat(string(DefaultPointer), c.getDots(linePos, line))))
 		if c.Hint != "" && c.Start.Line == linePos {
 			fmt.Fprintf(buf, " %s", c.Hint)
 		}
 		buf.WriteString("\n")
 	}
 	return buf.String()
+}
+
+func paint(c *color.Color, format string, a ...interface{}) string {
+	if NoColor {
+		return fmt.Sprintf(format, a...)
+	}
+	return c.SprintfFunc()(format, a...)
 }
 
 // start and end index of Ctx.Lines including lines of context.

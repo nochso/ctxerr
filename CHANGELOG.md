@@ -10,6 +10,11 @@ project adheres to [Semantic Versioning](http://semver.org/).
 [Unreleased]
 ============
 
+### Added
+
+- Bool `NoColor` to disable color output separately from fatih/color.
+
+
 [1.0.0] - 2017-01-21
 ====================
 

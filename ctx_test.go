@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"os"
 	"testing"
-
-	"github.com/fatih/color"
 )
 
 func init() {
-	color.NoColor = true
+	NoColor = true
 }
 
 func ExampleNew() {
