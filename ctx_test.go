@@ -154,6 +154,15 @@ func ExampleNewFromPath() {
 	//   | ^^^
 }
 
+func ExampleCtx_ErrorLine() {
+	ctx := New("foo", Point(1, 1))
+	ctx.Err = fmt.Errorf("something went wrong")
+	ctx.Path = "bar.txt"
+	fmt.Println(ctx.ErrorLine())
+	// Output:
+	// bar.txt:1:1: something went wrong
+}
+
 func TestNewFromPath_NoSuchFile(t *testing.T) {
 	_, err := NewFromPath("foo.txt", Point(1, 1))
 	if err == nil {

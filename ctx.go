@@ -113,6 +113,16 @@ func (c Ctx) Error() string {
 	return buf.String()
 }
 
+// ErrorLine returns a single line error message.
+func (c Ctx) ErrorLine() string {
+	s := c.Path
+	if s != "" {
+		s += ":"
+	}
+	s += c.Region.String() + ": " + c.Err.Error()
+	return s
+}
+
 func paint(c *color.Color, format string, a ...interface{}) string {
 	if NoColor {
 		return fmt.Sprintf(format, a...)
