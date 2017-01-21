@@ -37,7 +37,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 - Methods of `Ctx`: `WithPath`, `WithContext` and `WithHint` as they're now exported as fields.
 - Struct `Error` and method `Ctx.ToError()`. Use the exported `Err` field of `Ctx` instead.
 
-## Fixed
+### Fixed
 
 - Tabs are now properly handled when padding and pointing to regions.
 - No more panic when pointing outside of the line (to the right).

@@ -11,7 +11,9 @@ import (
 )
 
 var (
+	// Version as specified by ldflags on build or this default.
 	Version   = "1.0.0"
+	// BuildDate is optional and can be supplied by ldflags.
 	BuildDate = ""
 )
 
