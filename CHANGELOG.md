@@ -20,6 +20,7 @@ Unreleased
 - Function `Parse(line string) (*Ctx, error)` parses typical linter output into
   Ctx structs.
   Returns error `ErrNoMatch` when unlikely to be a linter error.
+  - Currently supports output of `gometalinter` and `npm run lint`.
 
 ### Changed
 

@@ -52,7 +52,7 @@ func TestParse_InvalidInt(t *testing.T) {
 	if err == nil {
 		t.Error("expected error, got nil")
 	}
-	prefix := "error parsing line number"
+	prefix := "strconv.ParseInt"
 	if !strings.HasPrefix(err.Error(), prefix) {
 		t.Errorf("expected error to have prefix %#v, got %#v", prefix, err.Error())
 	}
