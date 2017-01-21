@@ -21,6 +21,7 @@ Unreleased
   Ctx structs.
   Returns error `ErrNoMatch` when unlikely to be a linter error.
   - Currently supports output of `gometalinter` and `npm run lint`.
+- Command `ctx` enhances stdin with pretty errors and optional context.
 
 ### Changed
 
