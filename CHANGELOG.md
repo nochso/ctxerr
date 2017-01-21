@@ -7,8 +7,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
 
-Unreleased
-==========
+[Unreleased]
+============
+
+[1.0.0] - 2017-01-21
+====================
 
 ### Added
 
@@ -48,4 +51,5 @@ Unreleased
 - Initial public release.
 
 
-[Unreleased]: https://github.com/nochso/ctxerr/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/nochso/ctxerr/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/nochso/ctxerr/compare/0.1.0...1.0.0
