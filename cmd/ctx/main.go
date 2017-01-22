@@ -4,7 +4,10 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"os"
+	"os/exec"
+	"sync"
 
 	"github.com/nochso/ctxerr"
 )
@@ -27,16 +30,19 @@ func usage() {
 		bd = fmt.Sprintf(" (built %s)", bd)
 	}
 	format := `ctx %s%s
-Pretty prints parser errors from stdin.
+Pretty prints parser errors from stdin or any given command.
 
 Possible input:
   path/file.ext:1:5: some error on line 1, column 5
   file.ext:123: column is optional and so is the message:
   file.ext:1
+  parser_test.go[1, 15]: Missing semicolon
 
 Usage:
-  ctx < log.txt
-  gometalinter . | ctx
+  ctx < log.txt         # Existing file
+  gometalinter . | ctx  # Stdin
+  ctx go test           # Separate stdin and stderr of given command
+  go test 2>&1 | ctx    # Combine stdin and stderr
 
 Flags:
 `
@@ -49,24 +55,59 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
-	sc := bufio.NewScanner(os.Stdin)
+	if flag.NArg() == 0 {
+		scan(os.Stdin, os.Stdout)
+		return
+	}
+	scanCmd()
+}
+
+func scan(r io.Reader, w io.Writer) error {
+	sc := bufio.NewScanner(r)
 	for sc.Scan() {
 		cerr, err := ctxerr.Parse(sc.Text())
 		if err != nil {
 			if err != ctxerr.ErrNoMatch {
-				fmt.Println(err)
+				fmt.Fprintln(w, err)
 			}
 			if !*pessimistic {
-				fmt.Println(sc.Text())
+				fmt.Fprintln(w, sc.Text())
 			}
 			continue
 		}
 		cerr.Context = *context
-		fmt.Println(cerr)
+		fmt.Fprintln(w, cerr)
 	}
+	return sc.Err()
+}
 
-	if sc.Err() != nil {
-		fmt.Fprint(os.Stderr, sc.Err())
-		os.Exit(1)
+func scanCmd() {
+	cmd := exec.Command(flag.Arg(0), flag.Args()[1:]...)
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		panic(err)
+	}
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		panic(err)
+	}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	errs := make(chan error)
+	go func() { errs <- scan(stdout, os.Stdout) }()
+	go func() { errs <- scan(stderr, os.Stderr) }()
+	go func() {
+		wg.Wait()
+		close(errs)
+	}()
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for err := range errs {
+		if err != nil {
+			fmt.Println(err)
+		}
+		wg.Done()
 	}
 }

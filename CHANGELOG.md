@@ -15,6 +15,8 @@ project adheres to [Semantic Versioning](http://semver.org/).
 - Bool `NoColor` to disable color output separately from fatih/color.
 - Method `Ctx.ErrorLine() string` returns a single line error message.
 - Parse error messages printed by `go test`.
+- Command line arguments are run as given. Stdout and stderr are pretty printed
+  along the way.
 
 
 [1.0.0] - 2017-01-21
