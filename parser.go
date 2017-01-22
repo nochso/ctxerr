@@ -10,7 +10,7 @@ import (
 var (
 	// ErrNoMatch is returned by Parse when no file path or position can be found.
 	ErrNoMatch       = fmt.Errorf("line does not match position pattern: %s", matchRegionColon.String())
-	matchRegionColon = regexp.MustCompile(`^(.+?):(\d+):(\d+)?:?\s*(.*)$`)
+	matchRegionColon = regexp.MustCompile(`^\s*(.+?):(\d+):(\d+)?:?\s*(.*)$`)
 	matchRegionNpm   = regexp.MustCompile(`^(.+?)\[(\d+), (\d+)\]: (.*)$`)
 )
 
