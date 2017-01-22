@@ -56,7 +56,10 @@ func main() {
 	flag.Parse()
 
 	if flag.NArg() == 0 {
-		scan(os.Stdin, os.Stdout)
+		err := scan(os.Stdin, os.Stdout)
+		if err != nil {
+			fmt.Println(err)
+		}
 		return
 	}
 	scanCmd()
