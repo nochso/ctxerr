@@ -16,6 +16,11 @@ var (
 	BuildDate = ""
 )
 
+var (
+	context     = flag.Int("context", ctxerr.DefaultContext, "print `NUM` lines of context surrounding an error. negative for all, positive for limited and 0 for none (default)")
+	pessimistic = flag.Bool("pessimistic", false, "print only matching errors, ignore everything else")
+)
+
 func usage() {
 	bd := BuildDate
 	if bd != "" {
@@ -40,8 +45,6 @@ Flags:
 }
 
 func main() {
-	context := flag.Int("context", ctxerr.DefaultContext, "print `NUM` lines of context surrounding an error. negative for all, positive for limited and 0 for none (default)")
-	pessimistic := flag.Bool("pessimistic", false, "print only matching errors, ignore everything else")
 	flag.BoolVar(&ctxerr.NoColor, "no-color", false, "disable any color output")
 	flag.Usage = usage
 	flag.Parse()
